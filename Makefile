@@ -1,30 +1,41 @@
-GO_CMD=GO111MODULE=on go
-GO_TEST=$(GO_CMD) test
-GO_GET=$(GO_CMD) get
-GO_INSTALL=$(GO_CMD) install
-GO_FORMAT=gofumpt
+GO := go
+
+GOLANGCI := $(GO) tool github.com/golangci/golangci-lint/v2/cmd/golangci-lint
+GOVULNCHECK := $(GO) tool golang.org/x/vuln/cmd/govulncheck
+
+TOOLS := \
+	github.com/golangci/golangci-lint/v2/cmd/golangci-lint \
+	github.com/mgechev/revive \
+	golang.org/x/tools/cmd/goimports \
+	golang.org/x/vuln/cmd/govulncheck \
+	honnef.co/go/tools/cmd/staticcheck \
+	mvdan.cc/gofumpt
+
+.PHONY: tools deps update tidy fmt lint test vulncheck
+
+tools:
+	@for tool in $(TOOLS); do \
+		$(GO) get -tool $$tool@latest; \
+	done
 
 deps:
-	$(GO_GET) -v -d ./...
+	$(GO) mod download
 
 update:
-	$(GO_GET) -v -d -u ./...
+	$(GO) get -u ./...
+	$(GO) mod tidy
 
-install:
-	$(GO_INSTALL) golang.org/x/tools/cmd/goimports@latest
-	${GO_INSTALL} github.com/golang/mock/mockgen@latest
-	${GO_INSTALL} github.com/cweill/gotests/gotests@latest
-	${GO_INSTALL} github.com/fatih/gomodifytags@latest
-	${GO_INSTALL} github.com/josharian/impl@latest
-	${GO_INSTALL} github.com/haya14busa/goplay/cmd/goplay@latest
-	${GO_INSTALL} honnef.co/go/tools/cmd/staticcheck@latest
-	${GO_INSTALL} golang.org/x/tools/gopls@latest
-	${GO_INSTALL} mvdan.cc/gofumpt@latest
-	$(GO_GET) github.com/stretchr/testify/
+tidy:
+	$(GO) mod tidy
 
-test: deps
-	$(GO_GET) "github.com/stretchr/testify"
-	export ENV='test'; $(GO_TEST) -v ./... -count=1 -cover
+fmt:
+	$(GOLANGCI) fmt ./...
 
-fmt: install
-	find . -type f -name '*.go' | xargs $(GO_FORMAT) -w -l -extra
+lint:
+	$(GOLANGCI) run ./...
+
+test:
+	ENV='test' $(GO) test -v ./... -count=1 -cover
+
+vulncheck:
+	$(GOVULNCHECK) ./...
