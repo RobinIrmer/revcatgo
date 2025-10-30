@@ -37,6 +37,12 @@ const (
 	EventTypeSubscriptionExtended = "SUBSCRIPTION_EXTENDED"
 	// EventTypeTemporaryEntitlementGrant indicates a temporary entitlement grant.
 	EventTypeTemporaryEntitlementGrant = "TEMPORARY_ENTITLEMENT_GRANT"
+	// EventTypeRefundReversed indicates a previously issued refund was reversed.
+	EventTypeRefundReversed = "REFUND_REVERSED"
+	// EventTypeInvoiceIssuance indicates a new invoice has been issued for billing.
+	EventTypeInvoiceIssuance = "INVOICE_ISSUANCE"
+	// EventTypeVirtualCurrencyTransaction indicates a virtual currency adjustment event.
+	EventTypeVirtualCurrencyTransaction = "VIRTUAL_CURRENCY_TRANSACTION"
 )
 
 var validEventTypeValues = []string{
@@ -54,6 +60,9 @@ var validEventTypeValues = []string{
 	EventTypeExpiration,
 	EventTypeSubscriptionExtended,
 	EventTypeTemporaryEntitlementGrant,
+	EventTypeRefundReversed,
+	EventTypeInvoiceIssuance,
+	EventTypeVirtualCurrencyTransaction,
 }
 
 type eventType struct {
