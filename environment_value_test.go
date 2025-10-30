@@ -56,3 +56,15 @@ func TestEnvironmentUnMarshal(t *testing.T) {
 		}
 	}
 }
+
+func TestEnvironmentHelpers(t *testing.T) {
+	sandbox, err := newEnvironment(EnvironmentSandbox)
+	assert.NoError(t, err)
+	assert.True(t, sandbox.IsSandBox())
+	assert.False(t, sandbox.IsProduction())
+
+	production, err := newEnvironment(EnvironmentProduction)
+	assert.NoError(t, err)
+	assert.True(t, production.IsProduction())
+	assert.False(t, production.IsSandBox())
+}

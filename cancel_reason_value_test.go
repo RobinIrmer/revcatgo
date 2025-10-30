@@ -56,3 +56,12 @@ func TestCancelReasonUnMarshal(t *testing.T) {
 		}
 	}
 }
+
+func TestCancelReasonNullString(t *testing.T) {
+	c, err := newCancelReason(CancelReasonCustomerSupport)
+	assert.NoError(t, err)
+
+	nullString := c.NullString()
+	assert.True(t, nullString.Valid)
+	assert.Equal(t, CancelReasonCustomerSupport, nullString.ValueOrZero())
+}
