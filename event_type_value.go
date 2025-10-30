@@ -9,20 +9,40 @@ import (
 )
 
 const (
-	EventTypeTest                      = "TEST"
-	EventTypeInitialPurchase           = "INITIAL_PURCHASE"
-	EventTypeNonRenewingPurchase       = "NON_RENEWING_PURCHASE"
-	EventTypeRenewal                   = "RENEWAL"
-	EventTypeProductChange             = "PRODUCT_CHANGE"
-	EventTypeCancellation              = "CANCELLATION"
-	EventTypeUnCancellation            = "UNCANCELLATION"
-	EventTypeBillingIssue              = "BILLING_ISSUE"
-	EventTypeSubscriberAlias           = "SUBSCRIBER_ALIAS"
-	EventTypeSubscriptionPaused        = "SUBSCRIPTION_PAUSED"
-	EventTypeTransfer                  = "TRANSFER"
-	EventTypeExpiration                = "EXPIRATION"
-	EventTypeSubscriptionExtended      = "SUBSCRIPTION_EXTENDED"
+	// EventTypeTest indicates a RevenueCat test webhook event.
+	EventTypeTest = "TEST"
+	// EventTypeInitialPurchase indicates the initial purchase of a product.
+	EventTypeInitialPurchase = "INITIAL_PURCHASE"
+	// EventTypeNonRenewingPurchase indicates a non-renewing purchase event.
+	EventTypeNonRenewingPurchase = "NON_RENEWING_PURCHASE"
+	// EventTypeRenewal indicates that a subscription renewed.
+	EventTypeRenewal = "RENEWAL"
+	// EventTypeProductChange indicates the customer changed products.
+	EventTypeProductChange = "PRODUCT_CHANGE"
+	// EventTypeCancellation indicates that a subscription was canceled.
+	EventTypeCancellation = "CANCELLATION"
+	// EventTypeUnCancellation indicates that a cancellation was reversed.
+	EventTypeUnCancellation = "UNCANCELLATION"
+	// EventTypeBillingIssue indicates a billing issue occurred.
+	EventTypeBillingIssue = "BILLING_ISSUE"
+	// EventTypeSubscriberAlias indicates subscriber aliasing activity.
+	EventTypeSubscriberAlias = "SUBSCRIBER_ALIAS"
+	// EventTypeSubscriptionPaused indicates the subscription was paused.
+	EventTypeSubscriptionPaused = "SUBSCRIPTION_PAUSED"
+	// EventTypeTransfer indicates the subscription was transferred.
+	EventTypeTransfer = "TRANSFER"
+	// EventTypeExpiration indicates the subscription expired.
+	EventTypeExpiration = "EXPIRATION"
+	// EventTypeSubscriptionExtended indicates the subscription was extended.
+	EventTypeSubscriptionExtended = "SUBSCRIPTION_EXTENDED"
+	// EventTypeTemporaryEntitlementGrant indicates a temporary entitlement grant.
 	EventTypeTemporaryEntitlementGrant = "TEMPORARY_ENTITLEMENT_GRANT"
+	// EventTypeRefundReversed indicates a previously issued refund was reversed.
+	EventTypeRefundReversed = "REFUND_REVERSED"
+	// EventTypeInvoiceIssuance indicates a new invoice has been issued for billing.
+	EventTypeInvoiceIssuance = "INVOICE_ISSUANCE"
+	// EventTypeVirtualCurrencyTransaction indicates a virtual currency adjustment event.
+	EventTypeVirtualCurrencyTransaction = "VIRTUAL_CURRENCY_TRANSACTION"
 )
 
 var validEventTypeValues = []string{
@@ -40,6 +60,9 @@ var validEventTypeValues = []string{
 	EventTypeExpiration,
 	EventTypeSubscriptionExtended,
 	EventTypeTemporaryEntitlementGrant,
+	EventTypeRefundReversed,
+	EventTypeInvoiceIssuance,
+	EventTypeVirtualCurrencyTransaction,
 }
 
 type eventType struct {

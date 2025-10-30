@@ -13,13 +13,20 @@ type cancelReason struct {
 }
 
 const (
-	CancelReasonUnsubscribe        = "UNSUBSCRIBE"
-	CancelReasonBillingError       = "BILLING_ERROR"
+	// CancelReasonUnsubscribe indicates that the user intentionally unsubscribed.
+	CancelReasonUnsubscribe = "UNSUBSCRIBE"
+	// CancelReasonBillingError indicates the subscription was canceled due to billing errors.
+	CancelReasonBillingError = "BILLING_ERROR"
+	// CancelReasonDeveloperInitiated indicates the developer initiated the cancellation.
 	CancelReasonDeveloperInitiated = "DEVELOPER_INITIATED"
-	CancelReasonPriceIncrease      = "PRICE_INCREASE"
-	CancelReasonCustomerSupport    = "CUSTOMER_SUPPORT"
+	// CancelReasonPriceIncrease indicates the user rejected a price increase.
+	CancelReasonPriceIncrease = "PRICE_INCREASE"
+	// CancelReasonCustomerSupport indicates cancellation via customer support.
+	CancelReasonCustomerSupport = "CUSTOMER_SUPPORT"
+	// CancelReasonSubscriptionPaused indicates the subscription was paused.
 	CancelReasonSubscriptionPaused = "SUBSCRIPTION_PAUSED"
-	CancelReasonUnknown            = "UNKNOWN"
+	// CancelReasonUnknown indicates the cancellation reason was not provided.
+	CancelReasonUnknown = "UNKNOWN"
 )
 
 var validCancelReasonValues = []string{

@@ -13,7 +13,9 @@ type environment struct {
 }
 
 const (
-	EnvironmentSandbox    = "SANDBOX"
+	// EnvironmentSandbox marks events that occurred in the sandbox environment.
+	EnvironmentSandbox = "SANDBOX"
+	// EnvironmentProduction marks events that occurred in the production environment.
 	EnvironmentProduction = "PRODUCTION"
 )
 

@@ -47,6 +47,7 @@ func TestEventIsExpired(t *testing.T) {
 const initialPurchaseRawJSON = `
 {
    "product_id": "my.subscription.sandbox",
+   "app_id": "app-123",
    "event_timestamp_ms": 1605256336738,
    "original_app_user_id": "$RCAnonymousID:0000000000000000000000000000000b",
    "expiration_at_ms": 1605256730251,
@@ -72,6 +73,8 @@ const initialPurchaseRawJSON = `
      "premium"
    ],
    "price_in_purchased_currency": 550,
+   "tax_percentage": 5.5,
+   "commission_percentage": 30.0,
    "takehome_percentage": 0.7,
    "store": "PLAY_STORE",
    "price": 5.233,
@@ -80,7 +83,14 @@ const initialPurchaseRawJSON = `
    "id": "00A23FAE-0DB8-42E2-A8DC-00000BCDF0D6",
    "aliases": [
      "$RCAnonymousID:0000000000000000000000000000000b"
-   ]
+   ],
+   "experiments": [
+     {
+       "experiment_id": "exp_a",
+       "experiment_variant": "treatment"
+     }
+   ],
+   "renewal_number": 1
 }
 `
 
@@ -97,6 +107,10 @@ func TestUnmarshalInitialPurchaseEvent(t *testing.T) {
 	assert.Equal(t, "SANDBOX", event.Environment.String())
 	assert.Equal(t, "$RCAnonymousID:0000000000000000000000000000000b", event.AppUserID)
 	assert.Equal(t, float32(550), event.PriceInPurchasedCurrency)
+	assert.Equal(t, float32(5.5), event.TaxPercentage)
+	assert.Equal(t, "app-123", event.AppID)
+	assert.Len(t, event.Experiments, 1)
+	assert.Equal(t, "exp_a", event.Experiments[0].ID)
 	assert.Equal(t, int64(1605256730251), event.ExpirationAt.Int64())
 	assert.True(t, event.HasEntitlementID("premium"))
 	assert.False(t, event.HasEntitlementID("invalid_entitlement_id"))
@@ -151,6 +165,55 @@ func TestUnmarshalCancellationEvent(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.Equal(t, "BILLING_ERROR", event.CancelReason.String())
+}
+
+const virtualCurrencyTransactionJSON = `
+{
+  "type": "VIRTUAL_CURRENCY_TRANSACTION",
+  "app_user_id": "user123",
+  "app_id": "app-virtual",
+  "product_id": "coins.pack",
+  "purchase_environment": "PRODUCTION",
+  "source": "in_app_purchase",
+  "virtual_currency_transaction_id": "vtxn_001",
+  "adjustments": [
+    {
+      "amount": 100,
+      "currency": {
+        "code": "coins",
+        "name": "Coins",
+        "description": "In-app coins"
+      }
+    },
+    {
+      "amount": -20,
+      "currency": {
+        "code": "coins",
+        "name": "Coins",
+        "description": "In-app coins"
+      }
+    }
+  ],
+  "product_display_name": "Extra Coins Pack"
+}
+`
+
+func TestUnmarshalVirtualCurrencyTransactionEvent(t *testing.T) {
+	b := []byte(virtualCurrencyTransactionJSON)
+
+	var event Event
+	err := json.Unmarshal(b, &event)
+	assert.Nil(t, err)
+
+	assert.Equal(t, "VIRTUAL_CURRENCY_TRANSACTION", event.Type.String())
+	assert.Equal(t, "app-virtual", event.AppID)
+	assert.Equal(t, "vtxn_001", event.VirtualTransactionID)
+	assert.Equal(t, "Extra Coins Pack", event.ProductDisplayName)
+	assert.Equal(t, "PRODUCTION", event.PurchaseEnvironment.String())
+	assert.Equal(t, "in_app_purchase", event.Source)
+	assert.Len(t, event.Adjustments, 2)
+	assert.Equal(t, 100, event.Adjustments[0].Amount)
+	assert.Equal(t, "coins", event.Adjustments[0].Currency.Code)
 }
 
 func TestEvent_GetAllRelatedUserID(t *testing.T) {

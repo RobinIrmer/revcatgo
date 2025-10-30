@@ -9,9 +9,13 @@ import (
 )
 
 const (
-	PeriodTypeTrial       = "TRIAL"
-	PeriodTypeIntro       = "INTRO"
-	PeriodTypeNormal      = "NORMAL"
+	// PeriodTypeTrial identifies a trial period.
+	PeriodTypeTrial = "TRIAL"
+	// PeriodTypeIntro identifies an introductory pricing period.
+	PeriodTypeIntro = "INTRO"
+	// PeriodTypeNormal identifies a standard billing period.
+	PeriodTypeNormal = "NORMAL"
+	// PeriodTypePromotional identifies a promotional period.
 	PeriodTypePromotional = "PROMOTIONAL"
 )
 

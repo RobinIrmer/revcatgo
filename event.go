@@ -16,6 +16,7 @@ type WebhookEvent struct {
 // Event represents an Event of RevenueCat webhook
 type Event struct {
 	ID                       string               `json:"id"`
+	AppID                    string               `json:"app_id"`
 	Type                     eventType            `json:"type"`
 	EventTimestampAt         milliseconds         `json:"event_timestamp_ms"`
 	AppUserID                string               `json:"app_user_id"`
@@ -38,9 +39,11 @@ type Event struct {
 	Price                    price                `json:"price"`
 	Currency                 null.String          `json:"currency"`
 	PriceInPurchasedCurrency float32              `json:"price_in_purchased_currency"`
+	TaxPercentage            float32              `json:"tax_percentage"`
 	TakeHomePercentage       float32              `json:"takehome_percentage"`
 	CommissionPercentage     float32              `json:"commission_percentage"`
 	SubscriberAttributes     subscriberAttributes `json:"subscriber_attributes"`
+	Experiments              []experiment         `json:"experiments"`
 	TransactionID            string               `json:"transaction_id"`
 	OriginalTransactionID    string               `json:"original_transaction_id"`
 	IsFamilyShare            bool                 `json:"is_family_share"`
@@ -48,6 +51,12 @@ type Event struct {
 	TransferredTo            []string             `json:"transferred_to"`
 	CountryCode              string               `json:"country_code"`
 	OfferCode                string               `json:"offer_code"`
+	RenewalNumber            int                  `json:"renewal_number"`
+	Adjustments              []virtualAdjustment  `json:"adjustments"`
+	ProductDisplayName       string               `json:"product_display_name"`
+	PurchaseEnvironment      environment          `json:"purchase_environment"`
+	Source                   string               `json:"source"`
+	VirtualTransactionID     string               `json:"virtual_currency_transaction_id"`
 }
 
 // IsExpired checks whether a subscription is expired or not.
@@ -98,4 +107,23 @@ type subscriberAttributes map[string]subscriberAttribute
 type subscriberAttribute struct {
 	Value     string       `json:"value"`
 	UpdatedAt milliseconds `json:"updated_at_ms"`
+}
+
+// experiment represents a single experiment enrollment attached to the event.
+type experiment struct {
+	ID      string `json:"experiment_id"`
+	Variant string `json:"experiment_variant"`
+}
+
+// virtualAdjustment captures adjustments part of virtual currency transactions.
+type virtualAdjustment struct {
+	Amount   int             `json:"amount"`
+	Currency virtualCurrency `json:"currency"`
+}
+
+// virtualCurrency describes the virtual currency metadata in adjustments.
+type virtualCurrency struct {
+	Code        string `json:"code"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }

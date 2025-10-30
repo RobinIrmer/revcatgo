@@ -13,11 +13,17 @@ type store struct {
 }
 
 const (
-	StoreAmazon      = "AMAZON"
-	StorePlayStore   = "PLAY_STORE"
-	StoreAppStore    = "APP_STORE"
-	StoreStripe      = "STRIPE"
+	// StoreAmazon identifies purchases originating from the Amazon Appstore.
+	StoreAmazon = "AMAZON"
+	// StorePlayStore identifies purchases originating from the Google Play Store.
+	StorePlayStore = "PLAY_STORE"
+	// StoreAppStore identifies purchases originating from the Apple App Store.
+	StoreAppStore = "APP_STORE"
+	// StoreStripe identifies purchases processed through Stripe.
+	StoreStripe = "STRIPE"
+	// StoreMacAppStore identifies purchases originating from the Mac App Store.
 	StoreMacAppStore = "MAC_APP_STORE"
+	// StorePromotional identifies purchases granted via promotional credits.
 	StorePromotional = "PROMOTIONAL"
 )
 

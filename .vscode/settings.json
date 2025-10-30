@@ -1,0 +1,20 @@
+{
+	"cSpell.words": [
+		"errcheck",
+		"gofumpt",
+		"goimports",
+		"golangci",
+		"govet",
+		"govulncheck",
+		"honnef",
+		"iktakahiro",
+		"ineffassign",
+		"mgechev",
+		"mvdan",
+		"nilfunc",
+		"nilness",
+		"revcatgo",
+		"staticcheck",
+		"vulncheck"
+	]
+}

@@ -1,0 +1,30 @@
+version: "2"
+
+formatters:
+  enable:
+    - gofumpt
+    - goimports
+  settings:
+    gofumpt:
+      module-path: github.com/iktakahiro/revcatgo
+      extra-rules: true
+    goimports:
+      local-prefixes:
+        - github.com/iktakahiro/revcatgo
+
+linters:
+  default: standard
+  enable:
+    - staticcheck
+    - revive
+    - errcheck
+    - ineffassign
+    - govet
+  settings:
+    staticcheck:
+      checks:
+        - SA*
+    govet:
+      enable:
+        - nilfunc
+        - nilness
