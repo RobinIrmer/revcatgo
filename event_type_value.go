@@ -43,6 +43,8 @@ const (
 	EventTypeInvoiceIssuance = "INVOICE_ISSUANCE"
 	// EventTypeVirtualCurrencyTransaction indicates a virtual currency adjustment event.
 	EventTypeVirtualCurrencyTransaction = "VIRTUAL_CURRENCY_TRANSACTION"
+	// EventTypeExperimentEnrollment indicates a user was enrolled in an experiment.
+	EventTypeExperimentEnrollment = "EXPERIMENT_ENROLLMENT"
 )
 
 var validEventTypeValues = []string{
@@ -63,6 +65,7 @@ var validEventTypeValues = []string{
 	EventTypeRefundReversed,
 	EventTypeInvoiceIssuance,
 	EventTypeVirtualCurrencyTransaction,
+	EventTypeExperimentEnrollment,
 }
 
 type eventType struct {
